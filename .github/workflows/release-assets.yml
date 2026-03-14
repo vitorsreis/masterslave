@@ -1,0 +1,41 @@
+name: Release Assets
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate source
+        run: npm run check
+
+      - name: Build minified asset
+        run: npm run build:min
+
+      - name: Create GitHub release with JS assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            masterslave.js
+            masterslave.min.js
+          generate_release_notes: true

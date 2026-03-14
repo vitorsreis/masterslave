@@ -1,0 +1,7 @@
+.idea/
+node_modules/
+*.log
+.DS_Store
+masterslave.min.js
+package-lock.json
+Thumbs.db

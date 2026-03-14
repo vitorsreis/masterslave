@@ -1,0 +1,38 @@
+{
+  "name": "@vitorsreis/masterslave",
+  "version": "1.0.5",
+  "description": "Lightweight browser library for cross-tab leader election and event broadcasting.",
+  "author": "Vitor Reis",
+  "license": "MIT",
+  "homepage": "https://github.com/vitorsreis/masterslave#readme",
+  "bugs": {
+    "url": "https://github.com/vitorsreis/masterslave/issues"
+  },
+  "main": "masterslave.js",
+  "unpkg": "masterslave.min.js",
+  "jsdelivr": "masterslave.min.js",
+  "files": [
+    "masterslave.js",
+    "masterslave.min.js"
+  ],
+  "scripts": {
+    "check": "node --check ./masterslave.js",
+    "build": "npm run check && npm run build:min",
+    "build:min": "terser ./masterslave.js -c -m -o ./masterslave.min.js"
+  },
+  "keywords": [
+    "across-tabs",
+    "master-slave",
+    "leader-election",
+    "event-broadcast",
+    "browser",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitorsreis/masterslave.git"
+  },
+  "devDependencies": {
+    "terser": "^5.46.0"
+  }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MasterSlave Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; }
+    button { margin-right: 8px; }
+    pre { background: #111; color: #ddd; padding: 12px; border-radius: 8px; min-height: 180px; }
+  </style>
+</head>
+<body>
+  <h1>MasterSlave Demo</h1>
+  <p>Open this page in multiple tabs to see election and events.</p>
+
+  <p>
+    <button id="emit">Emit event</button>
+    <button id="close">Close instance</button>
+  </p>
+
+  <pre id="log"></pre>
+
+  <script src="../masterslave.js"></script>
+  <script>
+    const e = document.getElementById("log");
+    const l = (msg) => {
+      const line = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      e.textContent = `${line}\n${e.textContent}`;
+    };
+
+    const instance = MasterSlave(
+      "masterslave-demo",
+      (data) => l(`event received: ${JSON.stringify(data)}`),
+      () => {
+        l("this tab became master");
+        setInterval(() => instance.emit({ type: "master-heartbeat", at: Date.now() }), 3000);
+      }
+    );
+
+    l(`tab id: ${instance.id}`);
+
+    document.getElementById("emit").addEventListener("click", () => {
+      instance.emit({ type: "manual-event", at: Date.now() });
+      l("manual event emitted");
+    });
+
+    document.getElementById("close").addEventListener("click", () => {
+      instance.close();
+      l("instance closed");
+    });
+  </script>
+</body>
+</html>
